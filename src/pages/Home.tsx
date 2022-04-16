@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <main>
-      <div className="loader"></div>
+      {(comicsStatus === 'idle' || comicsStatus === 'loading') && <div className="loader"></div>}
 
       <section className="container">
         <Masonry lazyLoad={true}>
