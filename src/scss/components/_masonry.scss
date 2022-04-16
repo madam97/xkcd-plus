@@ -1,0 +1,20 @@
+.masonry-grid {
+  margin: 0 (-$gap * 0.5);
+}
+
+.masonry-grid-item {
+  float: left;
+  padding: 0 $gap * 0.5 $gap $gap * 0.5;
+}
+
+.masonry-grid-sizer,
+.masonry-grid-item {
+  width: 33.33333%;
+}
+
+@media (max-width: $bp-mobile-max) {
+  .masonry-grid-sizer,
+  .masonry-grid-item {
+    width: 100%;
+  }
+}
