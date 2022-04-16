@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { selectComics, getComicsStatus, getComicsError, fetchComics } from '../store/comicsSlice';
 import Masonry from '../components/Masonry';
@@ -50,9 +51,11 @@ export default function Home() {
 
           {comics && comics.map(comic => 
             <div key={comic.num}>
-              <div className="img img-lozad">
-                <img data-src={comic.img} alt={comic.alt} title={comic.title} />
-              </div>
+              <Link to={`/comic/${comic.num}`}>
+                <div className="img img-lozad">
+                  <img data-src={comic.img} alt={comic.alt} title={comic.title} />
+                </div>
+              </Link>
             </div>
           )}
         </Masonry>
