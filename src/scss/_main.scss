@@ -12,3 +12,18 @@ body {
 body {
   background-color: $gray-f;
 }
+
+h1 {
+  margin-bottom: 1em;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+a {
+  text-decoration: none;
+}
