@@ -29,11 +29,7 @@ export const comicsSlice = createSlice({
     list: [],
   } as ComicsState,
 
-  reducers: {
-    load: (state) => {
-      
-    },
-  },
+  reducers: {},
 
   extraReducers(builder) {
     builder
@@ -49,9 +45,7 @@ export const comicsSlice = createSlice({
         state.error = action.error.message;
       })
   }
-})
-
-export const { load } = comicsSlice.actions;
+});
 
 export const selectComics = (state: RootState) => state.comics.list;
 export const getComicsStatus = (state: RootState) => state.comics.status;
