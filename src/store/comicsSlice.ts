@@ -3,13 +3,7 @@ import axios from 'axios';
 import { RootState } from '../store';
 import IComic from '../interfaces/IComic';
 
-const COMICS_URL = process.env.REACT_APP_API_BASE_URL + '/comics'
-
-interface ComicsState {
-  status: 'idle' | 'ok' | 'fail' | 'loading',
-  error?: string,
-  list: IComic[]
-}
+export const COMICS_URL = process.env.REACT_APP_API_BASE_URL + '/comics';
 
 export const fetchComics = createAsyncThunk('comics/random', async (): Promise<IComic[] | string> => {
   try {
@@ -21,18 +15,27 @@ export const fetchComics = createAsyncThunk('comics/random', async (): Promise<I
   }
 });
 
+
+
+interface ComicsState {
+  status: 'idle' | 'ok' | 'fail' | 'loading',
+  error?: string,
+  list: IComic[]
+}
+
 export const comicsSlice = createSlice({
   name: 'comics',
 
   initialState: {
     status: 'idle',
-    list: [],
+    list: []
   } as ComicsState,
 
   reducers: {},
 
   extraReducers(builder) {
     builder
+      // comics/random
       .addCase(fetchComics.pending, (state, action) => {
         state.status = 'loading';
       })
