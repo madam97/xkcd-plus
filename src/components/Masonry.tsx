@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { default as MasonryEffect } from 'masonry-layout';
+import lozad from 'lozad';
 
 type MasonryProps = {
+  lazyLoad?: boolean,
   children: React.ReactNode[]
 }
 
-export default function Masonry({ children }: MasonryProps) {
+export default function Masonry({ lazyLoad = false, children }: MasonryProps) {
 
   const refGrid = useRef<HTMLDivElement>(null);
 
@@ -15,6 +17,24 @@ export default function Masonry({ children }: MasonryProps) {
         itemSelector: '.masonry-grid-item',
         columnWidth: '.masonry-grid-sizer'
       });
+
+      // Lazy loading images
+      if (lazyLoad) {
+        const imgs = refGrid.current.querySelectorAll('.img-lozad>img');
+
+        const observer = lozad(imgs, {
+          loaded: function(img: HTMLImageElement) {
+            img.addEventListener('load', () => {
+              img.closest('.img-lozad')?.classList.add('img-lozad-loaded');
+              
+              if (masonry.layout) {
+                masonry.layout();
+              }
+            }, { once: true });
+          }
+        });
+        observer.observe();
+      }
     }
   }, [children, refGrid]);
 
