@@ -11,14 +11,20 @@ body {
 
 body {
   background-color: $gray-f;
-}
-
-h1 {
-  margin-bottom: 1em;
-  font-size: 2em;
-  text-transform: uppercase;
+  font-family: $font-body;
+  font-weight: $font-body-weight;
   letter-spacing: 0.1em;
 }
+
+h1, .title {
+  margin-bottom: 1em;
+  font-family: $font-head;
+  font-weight: $font-head-weight;
+  letter-spacing: 0.1em;
+}
+
+h1 { font-size: 2em; }
+.title { font-size: 1.5em; }
 
 p {
   margin-bottom: 1em;
