@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/useRedux';
-import { selectComics } from '../store/comicsSlice';
+import { COMICS_URL, selectComics } from '../store/comicsSlice';
 import IComic from '../interfaces/IComic';
 import Image from '../components/Image';
+import axios from 'axios';
 
 type ComicRouteParams = {
   num?: string
@@ -18,11 +19,24 @@ export default function Comic() {
 
   const [comic, setComic] = useState<IComic>();
 
+  // Load comic's data
   useEffect(() => {
-    const comic = comics.find(comic => comic.num === numInt);
+    let comic = comics.find(comic => comic.num === numInt);
 
     if (comic) {
       setComic(comic);
+    }
+    // If comic is not in the stored comics' list, will fetch its data
+    else {
+      const fetchComic = async () => {
+        const res = await axios.get<IComic>(COMICS_URL + '/' + numInt);
+
+        if (res.data) {
+          setComic(res.data);
+        }
+      }
+
+      fetchComic();
     }
   }, [comics]);
 
