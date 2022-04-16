@@ -7,16 +7,13 @@ import Masonry from '../components/Masonry';
 export default function Home() {
 
   const dispatch = useAppDispatch();
-
   const comics = useAppSelector(selectComics);
   const comicsStatus = useAppSelector(getComicsStatus);
   const comicsError = useAppSelector(getComicsError);
 
   useEffect(() => {
     if (comicsStatus === 'idle') {
-      setTimeout(() => {
-        dispatch(fetchComics());
-      }, 2000);
+      dispatch(fetchComics());
     }
   }, [comicsStatus, dispatch]);
 
@@ -47,9 +44,9 @@ export default function Home() {
 
       <section className="container">
         <Masonry lazyLoad={true}>
-          {!comics && imgPlaceholders}
+          {comics.length === 0 && imgPlaceholders}
 
-          {comics && comics.map(comic => 
+          {comics.length > 0 && comics.map(comic => 
             <div key={comic.num}>
               <Link to={`/comic/${comic.num}`}>
                 <div className="img img-lozad">
