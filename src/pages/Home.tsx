@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
-import { selectComics, getComicsStatus, getComicsError, fetchComics } from '../store/comicsSlice';
+import { selectComics, getComicsStatus, fetchComics } from '../store/comicsSlice';
 import Masonry from '../components/Masonry';
 
 export default function Home() {
@@ -9,26 +9,31 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const comics = useAppSelector(selectComics);
   const comicsStatus = useAppSelector(getComicsStatus);
-  const comicsError = useAppSelector(getComicsError);
 
-  useEffect(() => {
+  // Loads 9 random comics data
+  const loadComics = useCallback((): void => {
     if (comicsStatus === 'idle') {
       dispatch(fetchComics());
     }
   }, [comicsStatus, dispatch]);
 
+  useEffect(() => {
+    loadComics();
+  }, [loadComics]);
+
   /**
    * Reloads the 9 comics
    * @param e 
    */
-  const reloadComics = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const reloadComics = useCallback((e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
 
     dispatch(fetchComics());
-  }
+  }, [dispatch]);
 
   // ---------------------------------------
 
+  // Generate placeholders for images
   const imgPlaceholders: React.ReactNode[] = [];
   for (let i = 0; i < 9; ++i) {
     imgPlaceholders.push((

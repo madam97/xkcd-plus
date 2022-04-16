@@ -36,7 +36,7 @@ export default function Masonry({ lazyLoad = false, children }: MasonryProps) {
         observer.observe();
       }
     }
-  }, [children, refGrid]);
+  }, [children, refGrid, lazyLoad]);
 
 
   // ---------------------------------------

@@ -5,6 +5,7 @@ import { COMICS_URL, selectComics } from '../store/comicsSlice';
 import IComic from '../interfaces/IComic';
 import Image from '../components/Image';
 import axios from 'axios';
+import moment from 'moment';
 
 type ComicRouteParams = {
   num?: string
@@ -38,11 +39,9 @@ export default function Comic() {
 
       fetchComic();
     }
-  }, [comics]);
+  }, [comics, numInt]);
 
   // ---------------------------------------
-
-  const date = comic ? new Date(comic.date) : new Date();
 
   return (
     <main>
@@ -54,7 +53,11 @@ export default function Comic() {
 
           <Image src={comic.img} alt={comic.alt} title={comic.title} inline={true} />
 
-          <p>Comic #{comic.num} from {date.getDay()}.{date.getMonth()}.{date.getFullYear()}.</p>
+          <p>
+            Comic #{comic.num} 
+
+            {comic.date ? ' from ' + moment(comic.date).format('DD.MM.YYYY') : ''}
+          </p>
 
           {comic.transcript && 
             <>
