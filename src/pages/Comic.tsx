@@ -38,13 +38,18 @@ export default function Comic() {
         <section className="container text-center">
           <h1>{comic.title}</h1>
 
-          {comic.transcript && <p>{comic.transcript}</p>}
-
           <Image src={comic.img} alt={comic.alt} title={comic.title} inline={true} />
 
           <p>Comic #{comic.num} from {date.getDay()}.{date.getMonth()}.{date.getFullYear()}.</p>
 
-          <div className="text-center">
+          {comic.transcript && 
+            <>
+              <p className="title mt-1">Transcript</p>
+              <p>{comic.transcript}</p>
+            </>
+          }
+
+          <div className="text-center mt-1">
             <Link className="btn-primary" to="/">Back to home</Link>
           </div>
         </section>
