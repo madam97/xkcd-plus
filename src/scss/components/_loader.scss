@@ -1,0 +1,33 @@
+.loader {
+  z-index: 1;
+  position: fixed;
+  inset: 0;
+  background-color: fade-out($black, 0.2);
+
+  &::before,
+  &::after {
+    @extend .absolute-centered;
+
+    content: '';
+    border: 5px solid transparent;
+    border-top-color: $white;
+    border-bottom-color: $white;
+    border-radius: 50%;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  &::before {
+    width: 100px;
+    height: 100px;
+    animation-name: spin-right-absolute-centered;
+    animation-duration: 2s;
+  }
+
+  &::after {
+    width: 60px;
+    height: 60px;
+    animation-name: spin-left-absolute-centered;
+    animation-duration: 1.5s;
+  }
+}
