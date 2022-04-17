@@ -2,6 +2,8 @@
 
 This website is for displaying xkcd comic strips.
 
+[Open website](https://madam-xkcd-plus.herokuapp.com/)
+
 [Backend readme](https://github.com/madam97/xkcd-plus-api#readme)
 
 ------------------------------
