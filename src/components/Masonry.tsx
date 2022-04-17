@@ -1,42 +1,42 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { default as MasonryEffect } from 'masonry-layout';
-import lozad from 'lozad';
 
 type MasonryProps = {
-  lazyLoad?: boolean,
+  listenLazyLoad?: boolean,
   children: React.ReactNode[]
 }
 
-export default function Masonry({ lazyLoad = false, children }: MasonryProps) {
+export default function Masonry({ listenLazyLoad = false, children }: MasonryProps) {
 
   const refGrid = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  /**
+   * Start the masonry effect, and if needed after lazy loading changed the layout of the masonry grid
+   */
+  const runMasonry = useCallback(() => {
     if (refGrid && refGrid.current) {
       const masonry = new MasonryEffect(refGrid.current, {
         itemSelector: '.masonry-grid-item',
         columnWidth: '.masonry-grid-sizer'
       });
 
-      // Lazy loading images
-      if (lazyLoad) {
+      if (listenLazyLoad) {
         const imgs = refGrid.current.querySelectorAll('.img-lozad>img');
 
-        const observer = lozad(imgs, {
-          loaded: function(img: HTMLImageElement) {
-            img.addEventListener('load', () => {
-              img.closest('.img-lozad')?.classList.add('img-lozad-loaded');
-              
-              if (masonry.layout) {
-                masonry.layout();
-              }
-            }, { once: true });
-          }
+        imgs.forEach(img => {
+          img.addEventListener('lazyload', () => {
+            if (masonry.layout) {
+              masonry.layout();
+            }
+          }, { once: true });
         });
-        observer.observe();
       }
     }
-  }, [children, refGrid, lazyLoad]);
+  }, [refGrid, listenLazyLoad]);
+
+  useEffect(() => {
+    runMasonry();
+  }, [runMasonry]);
 
 
   // ---------------------------------------
