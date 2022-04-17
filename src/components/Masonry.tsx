@@ -36,7 +36,7 @@ export default function Masonry({ listenLazyLoad = false, children }: MasonryPro
   // ---------------------------------------
 
   return (
-    <div ref={refGrid} className="masonry-grid">
+    <div ref={refGrid} data-testid="masonry-grid" className="masonry-grid">
       <div className="masonry-grid-sizer"></div> 
       <div className="masonry-gutter-sizer"></div>
 
