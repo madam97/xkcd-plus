@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { default as MasonryEffect } from 'masonry-layout';
 
 type MasonryProps = {
@@ -10,10 +10,8 @@ export default function Masonry({ listenLazyLoad = false, children }: MasonryPro
 
   const refGrid = useRef<HTMLDivElement>(null);
 
-  /**
-   * Start the masonry effect, and if needed after lazy loading changed the layout of the masonry grid
-   */
-  const runMasonry = useCallback(() => {
+  // Start the masonry effect, and if needed after lazy loading changed the layout of the masonry grid
+  useEffect(() => {
     if (refGrid && refGrid.current) {
       const masonry = new MasonryEffect(refGrid.current, {
         itemSelector: '.masonry-grid-item',
@@ -32,11 +30,7 @@ export default function Masonry({ listenLazyLoad = false, children }: MasonryPro
         });
       }
     }
-  }, [refGrid, listenLazyLoad]);
-
-  useEffect(() => {
-    runMasonry();
-  }, [runMasonry]);
+  }, [children, refGrid, listenLazyLoad]);
 
 
   // ---------------------------------------
