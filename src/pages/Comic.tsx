@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/useRedux';
 import { COMICS_URL, selectComics } from '../store/comicsSlice';
 import IComic from '../interfaces/IComic';
+import ErrorSection from '../components/ErrorSection';
 import Image from '../components/Image';
 import axios from 'axios';
 import moment from 'moment';
@@ -18,22 +19,27 @@ export default function Comic() {
 
   const comics = useAppSelector(selectComics);
 
-  const [comic, setComic] = useState<IComic>();
+  const [comic, setComic] = useState<IComic | undefined | null>(undefined);
 
-  // Load comic's data
+  // Load comic's data from the 9 stored comics or by fetching data using the API
   useEffect(() => {
     let comic = comics.find(comic => comic.num === numInt);
 
     if (comic) {
       setComic(comic);
-    }
-    // If comic is not in the stored comics' list, will fetch its data
-    else {
+    } else {
       const fetchComic = async () => {
-        const res = await axios.get<IComic>(COMICS_URL + '/' + numInt);
-
-        if (res.data) {
-          setComic(res.data);
+        try {
+          const res = await axios.get<IComic>(COMICS_URL + '/' + numInt);
+  
+          if (res.data) {
+            setComic(res.data);
+          } else {
+            throw new Error('missing data');
+          }
+        } catch (err) {
+          // Error will appear
+          setComic(null);
         }
       }
 
@@ -45,7 +51,13 @@ export default function Comic() {
 
   return (
     <main>
-      {!comic && <div className="loader"></div>}
+      {comic === undefined && <div className="loader"></div>}
+
+      {comic === null && 
+        <ErrorSection subtitle="Comic is not found" msg="Correct the link of the page if it is misspelled.">
+          <Link className="btn-primary" to="/">Back to home</Link>
+        </ErrorSection>
+      }
 
       {comic && 
         <section className="container text-center">

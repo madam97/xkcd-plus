@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
-import { selectComics, getComicsStatus, fetchComics } from '../store/comicsSlice';
+import { selectComics, getComicsStatus, fetchComics, getComicsError } from '../store/comicsSlice';
 import Masonry from '../components/Masonry';
 import Image from '../components/Image';
+import ErrorSection from '../components/ErrorSection';
 
 export default function Home() {
 
@@ -57,17 +58,27 @@ export default function Home() {
     <main>
       {(comicsStatus === 'idle' || comicsStatus === 'loading') && <div className="loader"></div>}
 
-      <section className="container">
+      {comicsStatus !== 'fail' && 
+        <section className="container">
         
-        {comics.length === 0 && <Masonry>{imgPlaceholders}</Masonry>}
-        {comics.length > 0 && <Masonry listenLazyLoad={true}>{images}</Masonry>}
+          {comics.length === 0 && <Masonry>{imgPlaceholders}</Masonry>}
+          {comics.length > 0 && <Masonry listenLazyLoad={true}>{images}</Masonry>}
 
-        <div className="text-center">
+          <div className="text-center">
+            <button className="btn-primary" onClick={reloadComics}>
+              Reload
+            </button>
+          </div>
+        </section>
+      }
+
+      {comicsStatus === 'fail' &&
+        <ErrorSection subtitle="Server is down" msg="Was not able to load comics. Try again later!">
           <button className="btn-primary" onClick={reloadComics}>
             Reload
           </button>
-        </div>
-      </section>
+        </ErrorSection>
+      }
     </main>
   )
 }
