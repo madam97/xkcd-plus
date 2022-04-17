@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/useRedux';
 import { selectComics, getComicsStatus, fetchComics } from '../store/comicsSlice';
 import Masonry from '../components/Masonry';
+import Image from '../components/Image';
 
 export default function Home() {
 
@@ -43,24 +44,23 @@ export default function Home() {
     ));
   }
 
+  // Generate images
+  const images = comics.map(comic => 
+    <div key={comic.num}>
+      <Link to={`/comic/${comic.num}`}>
+        <Image img={{ src: comic.img, alt: comic.alt, title: comic.title }} />
+      </Link>
+    </div>
+  );
+
   return (
     <main>
       {(comicsStatus === 'idle' || comicsStatus === 'loading') && <div className="loader"></div>}
 
       <section className="container">
-        <Masonry lazyLoad={true}>
-          {comics.length === 0 && imgPlaceholders}
-
-          {comics.length > 0 && comics.map(comic => 
-            <div key={comic.num}>
-              <Link to={`/comic/${comic.num}`}>
-                <div className="img img-lozad">
-                  <img data-src={comic.img} alt={comic.alt} title={comic.title} />
-                </div>
-              </Link>
-            </div>
-          )}
-        </Masonry>
+        
+        {comics.length === 0 && <Masonry>{imgPlaceholders}</Masonry>}
+        {comics.length > 0 && <Masonry listenLazyLoad={true}>{images}</Masonry>}
 
         <div className="text-center">
           <button className="btn-primary" onClick={reloadComics}>

@@ -51,7 +51,7 @@ export default function Comic() {
         <section className="container text-center">
           <h1>{comic.title}</h1>
 
-          <Image src={comic.img} alt={comic.alt} title={comic.title} inline={true} />
+          <Image img={{ src: comic.img, alt: comic.alt, title: comic.title }} inline={true} />
 
           <p>
             Comic #{comic.num} 
