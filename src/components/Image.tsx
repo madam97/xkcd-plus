@@ -1,23 +1,27 @@
 import React, { useEffect, useRef } from 'react';
 import lozad from 'lozad';
+import IImage from '../interfaces/IImage';
+
+const eventLazyload = new Event('lazyload');
 
 type ImageProps = {
-  src: string, 
-  alt: string, 
-  title: string,
+  img: IImage,
   inline?: boolean
 }
 
-export default function Image({ src, alt, title, inline = false }: ImageProps) {
+export default function Image({ img, inline = false }: ImageProps) {
 
   const refImg = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (refImg && refImg.current) {
+
       const observer = lozad(refImg.current, {
-        loaded: function(img: HTMLImageElement) {
-          img.addEventListener('load', () => {
-            img.closest('.img-lozad')?.classList.add('img-lozad-loaded');
+        loaded: function(imgEl: HTMLImageElement) {
+          imgEl.addEventListener('load', () => {
+            imgEl.closest('.img-lozad')?.classList.add('img-lozad-loaded');
+
+            imgEl.dispatchEvent(eventLazyload);
           }, { once: true });
         }
       });
@@ -29,7 +33,7 @@ export default function Image({ src, alt, title, inline = false }: ImageProps) {
 
   return (
     <div className={`img img-lozad ${inline ? 'img-inline' : ''}`}>
-      <img ref={refImg} data-src={src} alt={alt} title={title} />
+      <img ref={refImg} data-src={img.src} alt={img.alt} title={img.title} />
     </div>
   )
 }
