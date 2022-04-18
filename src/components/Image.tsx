@@ -4,18 +4,32 @@ import IImage from '../interfaces/IImage';
 
 const eventLazyload = new Event('lazyload');
 
+/** 
+ * ImageProps
+ * @category Component
+ */
 type ImageProps = {
+  /** The image's data to be displayed */
   img: IImage,
+  /** If true, the image appears as an inline block element */
   inline?: boolean
 }
 
-export default function Image({ img, inline = false }: ImageProps) {
+/**
+ * Displays the given image by using lazy loading the file.
+ * @category Component
+ * @component
+ * @param {ImageProps} props
+ * @returns {JSX.Element}
+ */
+const Image = ({ img, inline = false }: ImageProps): JSX.Element => {
 
+  /** Reference of the img element */
   const refImg = useRef<HTMLImageElement>(null);
 
+  /** Runs the lazy loading */
   useEffect(() => {
     if (refImg && refImg.current) {
-
       const observer = lozad(refImg.current, {
         loaded: function(imgEl: HTMLImageElement) {
           imgEl.addEventListener('load', () => {
@@ -37,3 +51,5 @@ export default function Image({ img, inline = false }: ImageProps) {
     </div>
   )
 }
+
+export default Image;
