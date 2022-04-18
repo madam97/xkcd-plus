@@ -4,7 +4,12 @@ import Home from './pages/Home';
 import Comic from './pages/Comic';
 import ErrorPage from './pages/ErrorPage';
 
-function App() {
+/**
+ * The main component, index file renders it
+ * @component
+ * @returns {JSX.Element}
+ */
+const App = (): JSX.Element => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
