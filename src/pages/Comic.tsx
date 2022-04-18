@@ -12,7 +12,13 @@ type ComicRouteParams = {
   num?: string
 }
 
-export default function Comic() {
+/**
+ * The Comic page's component
+ * @category Page
+ * @component
+ * @returns {JSX.Element}
+ */
+const Comic = (): JSX.Element => {
 
   const { num } = useParams<ComicRouteParams>();
   const numInt = num ? parseInt(num) : 0;
@@ -86,3 +92,5 @@ export default function Comic() {
     </main>
   )
 }
+
+export default Comic;

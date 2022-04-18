@@ -6,13 +6,23 @@ import Masonry from '../components/Masonry';
 import Image from '../components/Image';
 import ErrorSection from '../components/ErrorSection';
 
-export default function Home() {
+/**
+ * The Home page's component
+ * @category Page
+ * @component
+ * @returns {JSX.Element}
+ */
+const Home = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const comics = useAppSelector(selectComics);
   const comicsStatus = useAppSelector(getComicsStatus);
 
-  // Loads 9 random comics data
+  /**
+   * Loads 9 random comics data
+   * @function
+   * @returns {void}
+   */
   const loadComics = useCallback((): void => {
     if (comicsStatus === 'idle') {
       dispatch(fetchComics());
@@ -25,7 +35,9 @@ export default function Home() {
 
   /**
    * Reloads the 9 comics
-   * @param e 
+   * @function
+   * @param {React.MouseEvent<HTMLButtonElement>} e 
+   * @returns {void}
    */
   const reloadComics = useCallback((e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
@@ -82,3 +94,5 @@ export default function Home() {
     </main>
   )
 }
+
+export default Home;

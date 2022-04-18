@@ -2,7 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ErrorSection from '../components/ErrorSection';
 
-export default function ErrorPage() {
+/**
+ * The Error page's component
+ * @category Page
+ * @component
+ * @returns {JSX.Element}
+ */
+const ErrorPage = (): JSX.Element => {
   return (
     <main>
       <ErrorSection title="404" msg="Ooops, something went wrong...">
@@ -11,3 +17,5 @@ export default function ErrorPage() {
     </main>
   )
 }
+
+export default ErrorPage;
